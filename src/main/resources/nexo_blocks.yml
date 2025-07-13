@@ -3,6 +3,9 @@
 
 laboratory_terminal:
   material: CRAFTING_TABLE
+  Mechanics:
+    custom_block:
+      type: NOTEBLOCK
   displayname: "<#00ffff>Терминал лаборатории"
   lore:
     - "<#gray>Центр исследований"
@@ -16,6 +19,9 @@ laboratory_terminal:
 
 assembler:
   material: SMITHING_TABLE
+  Mechanics:
+    custom_block:
+      type: NOTEBLOCK
   displayname: "<#ffff00>Сборщик"
   lore:
     - "<#gray>Сборка исследованных предметов"
@@ -29,6 +35,9 @@ assembler:
 
 centrifuge_block:
   material: BLAST_FURNACE
+  Mechanics:
+    custom_block:
+      type: NOTEBLOCK
   displayname: "<#00ff00>Блок центрифуги"
   lore:
     - "<#gray>Производство урановой пыли"
@@ -42,6 +51,9 @@ centrifuge_block:
 
 teleporter:
   material: END_PORTAL_FRAME
+  Mechanics:
+    custom_block:
+      type: NOTEBLOCK
   displayname: "<#ff00ff>Телепорт"
   lore:
     - "<#gray>Мгновенная телепортация"

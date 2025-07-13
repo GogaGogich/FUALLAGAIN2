@@ -4,15 +4,11 @@ import com.example.laboratory.LaboratoryPlugin;
 import com.example.laboratory.gui.LaboratoryGUI;
 import com.example.laboratory.gui.AssemblerGUI;
 import com.example.laboratory.gui.TeleporterGUI;
-import com.nexomc.nexo.api.NexoBlocks;
-import com.nexomc.nexo.api.NexoItems;
+import com.nexomc.nexo.api.events.custom_block.NexoStringBlockInteractEvent;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 
 public class BlockListener implements Listener {
     
@@ -23,24 +19,12 @@ public class BlockListener implements Listener {
     }
     
     @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            return;
-        }
-        
-        Block block = event.getClickedBlock();
-        if (block == null) {
-            return;
-        }
-        
+    public void onNexoBlockInteract(NexoStringBlockInteractEvent event) {
         Player player = event.getPlayer();
+        Block block = event.getBlock();
+        String blockId = event.getCustomBlock().getId();
         
-        String blockId = null;
-        try {
-            blockId = NexoBlocks.idFromBlock(block);
-        } catch (Exception e) {
-            return;
-        }
+        plugin.getLogger().info("Player " + player.getName() + " interacted with custom block: " + blockId);
         
         switch (blockId) {
             case "laboratory_terminal":
@@ -80,6 +64,11 @@ public class BlockListener implements Listener {
                 } else {
                     player.sendMessage("§cНеправильная структура центрифуги!");
                 }
+                break;
+                
+            default:
+                // Log unknown block interactions for debugging
+                plugin.getLogger().info("Unknown custom block interaction: " + blockId);
                 break;
         }
     }

@@ -2,6 +2,7 @@ package com.example.laboratory.managers;
 
 import com.example.laboratory.LaboratoryPlugin;
 import com.nexomc.nexo.api.NexoItems;
+import com.nexomc.nexo.api.NexoBlocks;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -45,8 +46,15 @@ public class CentrifugeManager {
         Block center = centerLocation.getBlock();
         
         // Check if center is centrifuge block
-        String itemId = com.nexomc.nexo.api.NexoBlocks.idFromBlock(center);
-        if (!"centrifuge_block".equals(itemId)) {
+        String blockId = null;
+        try {
+            blockId = NexoBlocks.idFromBlock(center);
+        } catch (Exception e) {
+            plugin.getLogger().warning("Failed to get block ID from Nexo: " + e.getMessage());
+            return false;
+        }
+        
+        if (!"centrifuge_block".equals(blockId)) {
             return false;
         }
         

@@ -29,7 +29,7 @@ public class PlayerListener implements Listener {
         
         String itemId = null;
         try {
-        String itemId = NexoItems.idFromItem(item);
+            itemId = NexoItems.idFromItem(item);
         } catch (Exception e) {
             return; // Nexo API not available
         }
