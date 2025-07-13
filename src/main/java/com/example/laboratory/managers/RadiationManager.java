@@ -61,28 +61,28 @@ public class RadiationManager {
         int totalRadiation = 0;
         
         try {
-        // Check inventory for uranium items
-        for (ItemStack item : player.getInventory().getContents()) {
-            if (item == null) continue;
-            
-            String itemId = NexoItems.idFromItem(item);
-            if (itemId == null) continue;
-            
-            switch (itemId) {
-                case "uranium_dust":
-                    totalRadiation += item.getAmount() * 1; // 1 radiation per dust
-                    break;
-                case "uranium_ingot":
-                    totalRadiation += item.getAmount() * 9; // 9 radiation per ingot (9 dust)
-                    break;
-                case "uranium_block":
-                    totalRadiation += item.getAmount() * 81; // 81 radiation per block (81 dust)
-                    break;
+            // Check inventory for uranium items
+            for (ItemStack item : player.getInventory().getContents()) {
+                if (item == null) continue;
+                
+                String itemId = NexoItems.idFromItem(item);
+                if (itemId == null) continue;
+                
+                switch (itemId) {
+                    case "uranium_dust":
+                        totalRadiation += item.getAmount() * 1; // 1 radiation per dust
+                        break;
+                    case "uranium_ingot":
+                        totalRadiation += item.getAmount() * 9; // 9 radiation per ingot (9 dust)
+                        break;
+                    case "uranium_block":
+                        totalRadiation += item.getAmount() * 81; // 81 radiation per block (81 dust)
+                        break;
+                }
             }
         } catch (Exception e) {
             // Fallback if Nexo API fails
             return 0;
-        }
         }
         
         return totalRadiation;
@@ -123,8 +123,12 @@ public class RadiationManager {
     
     private boolean isNexoItem(ItemStack item, String itemId) {
         if (item == null) return false;
-        String id = NexoItems.idFromItem(item);
-        return itemId.equals(id);
+        try {
+            String id = NexoItems.idFromItem(item);
+            return itemId.equals(id);
+        } catch (Exception e) {
+            return false;
+        }
     }
     
     private void applyRadiationEffects(Player player, int radiationLevel) {

@@ -12,6 +12,7 @@ import com.example.laboratory.managers.TeleportManager;
 import com.example.laboratory.managers.TabletManager;
 import com.example.laboratory.managers.ConfigManager;
 import com.example.laboratory.managers.DataManager;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class LaboratoryPlugin extends JavaPlugin {
@@ -68,7 +69,10 @@ public class LaboratoryPlugin extends JavaPlugin {
         getCommand("laboratory").setExecutor(new LaboratoryCommand(this));
         
         getLogger().info("Laboratory Plugin enabled successfully!");
-        }
+    }
+    
+    @Override
+    public void onDisable() {
         if (radiationManager != null) {
             radiationManager.shutdown();
         }

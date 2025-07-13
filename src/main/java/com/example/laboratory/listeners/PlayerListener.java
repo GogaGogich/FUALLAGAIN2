@@ -98,8 +98,12 @@ public class PlayerListener implements Listener {
     
     private boolean isUraniumDust(ItemStack item) {
         if (item == null) return false;
-        String itemId = NexoItems.idFromItem(item);
-        return "uranium_dust".equals(itemId);
+        try {
+            String itemId = NexoItems.idFromItem(item);
+            return "uranium_dust".equals(itemId);
+        } catch (Exception e) {
+            return false;
+        }
     }
     
     private void extractUraniumFromCapsule(Player player, ItemStack capsule) {

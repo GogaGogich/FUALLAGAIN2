@@ -35,25 +35,10 @@ public class BlockListener implements Listener {
         
         Player player = event.getPlayer();
         
-        try {
-        String blockId = NexoBlocks.idFromBlock(block);
-        
-        if (blockId == null) {
-            return;
-        }
-        } catch (Exception e) {
-            // Nexo API not available or error occurred
-            return;
-        }
-        
         String blockId = null;
         try {
             blockId = NexoBlocks.idFromBlock(block);
         } catch (Exception e) {
-            return;
-        }
-        
-        if (blockId == null) {
             return;
         }
         
