@@ -1,0 +1,67 @@
+# Vanilla crafting recipes for basic items
+
+uranium_ingot:
+  type: SHAPED
+  shape:
+    - "UUU"
+    - "UUU"
+    - "UUU"
+  ingredients:
+    U: uranium_dust
+  result:
+    item: uranium_ingot
+    amount: 1
+
+uranium_block:
+  type: SHAPED
+  shape:
+    - "III"
+    - "III"
+    - "III"
+  ingredients:
+    I: uranium_ingot
+  result:
+    item: uranium_block
+    amount: 1
+
+laboratory_terminal:
+  type: SHAPED
+  shape:
+    - "IRI"
+    - "RCR"
+    - "IRI"
+  ingredients:
+    I: IRON_INGOT
+    R: REDSTONE
+    C: CRAFTING_TABLE
+  result:
+    item: laboratory_terminal
+    amount: 1
+
+assembler:
+  type: SHAPED
+  shape:
+    - "IRI"
+    - "RSR"
+    - "IRI"
+  ingredients:
+    I: IRON_INGOT
+    R: REDSTONE
+    S: SMITHING_TABLE
+  result:
+    item: assembler
+    amount: 1
+
+geiger_counter:
+  type: SHAPED
+  shape:
+    - " R "
+    - "ICI"
+    - " I "
+  ingredients:
+    I: IRON_INGOT
+    R: REDSTONE
+    C: CLOCK
+  result:
+    item: geiger_counter
+    amount: 1

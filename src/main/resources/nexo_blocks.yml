@@ -1,0 +1,53 @@
+# Nexo Blocks Configuration for Laboratory Plugin
+# This file defines all custom blocks used in the laboratory system
+
+laboratory_terminal:
+  material: CRAFTING_TABLE
+  displayname: "<#00ffff>Терминал лаборатории"
+  lore:
+    - "<#gray>Центр исследований"
+    - "<#green>ПКМ - открыть интерфейс"
+    - "<#green>Shift + ПКМ - загрузить ресурсы"
+  custom_model_data: 2001
+  hardness: 3.0
+  drop:
+    items:
+      - laboratory_terminal
+
+assembler:
+  material: SMITHING_TABLE
+  displayname: "<#ffff00>Сборщик"
+  lore:
+    - "<#gray>Сборка исследованных предметов"
+    - "<#green>ПКМ - открыть интерфейс"
+    - "<#green>Shift + ПКМ - загрузить ресурсы"
+  custom_model_data: 2002
+  hardness: 3.0
+  drop:
+    items:
+      - assembler
+
+centrifuge_block:
+  material: BLAST_FURNACE
+  displayname: "<#00ff00>Блок центрифуги"
+  lore:
+    - "<#gray>Производство урановой пыли"
+    - "<#yellow>Требует структуру 3x3"
+    - "<#green>ПКМ - запустить центрифугу"
+  custom_model_data: 2003
+  hardness: 5.0
+  drop:
+    items:
+      - centrifuge_block
+
+teleporter:
+  material: END_PORTAL_FRAME
+  displayname: "<#ff00ff>Телепорт"
+  lore:
+    - "<#gray>Мгновенная телепортация"
+    - "<#green>ПКМ для открытия интерфейса"
+  custom_model_data: 2004
+  hardness: 10.0
+  drop:
+    items:
+      - teleporter

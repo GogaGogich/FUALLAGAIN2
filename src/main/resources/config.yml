@@ -1,0 +1,34 @@
+# Laboratory Plugin Configuration
+
+# Radiation settings
+radiation:
+  check-interval: 20  # Ticks between radiation checks (20 = 1 second)
+  effects:
+    low-threshold: 20      # Low radiation level
+    medium-threshold: 50   # Medium radiation level  
+    high-threshold: 100    # High radiation level
+    critical-threshold: 200 # Critical radiation level
+
+# Centrifuge settings
+centrifuge:
+  process-time: 300  # Seconds to process uranium (5 minutes)
+  min-uranium: 1     # Minimum uranium dust output
+  max-uranium: 5     # Maximum uranium dust output
+
+# Research settings
+research:
+  auto-save-interval: 600  # Seconds between auto-saves (10 minutes)
+
+# Tablet settings
+tablet:
+  max-structures: 50    # Maximum structures per tablet
+  update-interval: 40   # Ticks between tablet updates (2 seconds)
+
+# Messages
+messages:
+  prefix: "§8[§6Laboratory§8]§r "
+  no-permission: "§cУ вас нет прав для использования этой функции!"
+  nexo-not-found: "§cNexo плагин не найден! Плагин требует Nexo для работы."
+  radiation-cleared: "§aУровень радиации сброшен!"
+  research-completed: "§aИсследование завершено!"
+  structure-blocked: "§cЭта структура заблокирована!"

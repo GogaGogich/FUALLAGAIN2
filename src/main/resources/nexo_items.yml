@@ -1,0 +1,137 @@
+# Nexo Items Configuration for Laboratory Plugin
+# This file defines all custom items used in the laboratory system
+
+uranium_dust:
+  material: GUNPOWDER
+  displayname: "<#00ff00>Урановая пыль"
+  lore:
+    - "<#ffff00>Радиоактивный материал"
+    - "<#ff0000>⚠ Излучает радиацию!"
+  custom_model_data: 1001
+
+uranium_ingot:
+  material: IRON_INGOT
+  displayname: "<#00ff00>Урановый слиток"
+  lore:
+    - "<#ffff00>Спрессованная урановая пыль"
+    - "<#ff0000>⚠ Сильно излучает радиацию!"
+  custom_model_data: 1002
+
+uranium_block:
+  material: IRON_BLOCK
+  displayname: "<#00ff00>Урановый блок"
+  lore:
+    - "<#ffff00>Концентрированный уран"
+    - "<#ff0000>⚠ КРАЙНЕ радиоактивен!"
+  custom_model_data: 1003
+
+uranium_capsule:
+  material: GLASS_BOTTLE
+  displayname: "<#00ffff>Урановая капсула"
+  lore:
+    - "<#ffff00>Безопасное хранение урана"
+    - "<#gray>Вместимость: 0/500 пыли"
+    - "<#green>ПКМ с ураном в левой руке - положить"
+    - "<#green>Shift + ПКМ - извлечь"
+  custom_model_data: 1004
+
+quantum_core:
+  material: NETHER_STAR
+  displayname: "<#ff00ff>Квантовое ядро"
+  lore:
+    - "<#ffff00>Основной компонент для крафтов"
+    - "<#gray>Используется в продвинутых технологиях"
+  custom_model_data: 1005
+
+geiger_counter:
+  material: CLOCK
+  displayname: "<#ffff00>Счётчик Гейгера"
+  lore:
+    - "<#gray>Измеряет уровень радиации"
+    - "<#green>ПКМ для проверки радиации"
+  custom_model_data: 1006
+
+tablet:
+  material: MAP
+  displayname: "<#00ffff>Планшет"
+  lore:
+    - "<#gray>Дистанционный мониторинг"
+    - "<#green>Shift + ПКМ по блоку - привязать"
+    - "<#green>ПКМ - открыть интерфейс"
+  custom_model_data: 1007
+
+chem_protection_helmet:
+  material: LEATHER_HELMET
+  displayname: "<#ffff00>Шлем хим защиты"
+  lore:
+    - "<#gray>Защита от радиации"
+  custom_model_data: 1008
+
+chem_protection_chestplate:
+  material: LEATHER_CHESTPLATE
+  displayname: "<#ffff00>Нагрудник хим защиты"
+  lore:
+    - "<#gray>Защита от радиации"
+  custom_model_data: 1009
+
+chem_protection_leggings:
+  material: LEATHER_LEGGINGS
+  displayname: "<#ffff00>Поножи хим защиты"
+  lore:
+    - "<#gray>Защита от радиации"
+  custom_model_data: 1010
+
+chem_protection_boots:
+  material: LEATHER_BOOTS
+  displayname: "<#ffff00>Ботинки хим защиты"
+  lore:
+    - "<#gray>Защита от радиации"
+  custom_model_data: 1011
+
+power_armor_helmet:
+  material: NETHERITE_HELMET
+  displayname: "<#ff0000>Шлем силовой брони"
+  lore:
+    - "<#gray>Продвинутая защита от радиации"
+    - "<#ffff00>+ Дополнительные режимы"
+  custom_model_data: 1012
+
+power_armor_chestplate:
+  material: NETHERITE_CHESTPLATE
+  displayname: "<#ff0000>Нагрудник силовой брони"
+  lore:
+    - "<#gray>Продвинутая защита от радиации"
+    - "<#ffff00>+ Дополнительные режимы"
+  custom_model_data: 1013
+
+power_armor_leggings:
+  material: NETHERITE_LEGGINGS
+  displayname: "<#ff0000>Поножи силовой брони"
+  lore:
+    - "<#gray>Продвинутая защита от радиации"
+    - "<#ffff00>+ Дополнительные режимы"
+  custom_model_data: 1014
+
+power_armor_boots:
+  material: NETHERITE_BOOTS
+  displayname: "<#ff0000>Ботинки силовой брони"
+  lore:
+    - "<#gray>Продвинутая защита от радиации"
+    - "<#ffff00>+ Дополнительные режимы"
+  custom_model_data: 1015
+
+railgun:
+  material: CROSSBOW
+  displayname: "<#ff0000>Рельсатрон"
+  lore:
+    - "<#gray>Электромагнитное оружие"
+    - "<#ffff00>Различные режимы стрельбы"
+  custom_model_data: 1016
+
+teleporter:
+  material: END_PORTAL_FRAME
+  displayname: "<#ff00ff>Телепорт"
+  lore:
+    - "<#gray>Мгновенная телепортация"
+    - "<#green>ПКМ для открытия интерфейса"
+  custom_model_data: 1017

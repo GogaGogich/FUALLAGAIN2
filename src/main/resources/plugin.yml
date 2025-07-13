@@ -1,0 +1,30 @@
+name: LaboratoryPlugin
+version: 1.0.0
+main: com.example.laboratory.LaboratoryPlugin
+api-version: 1.21
+depend: [Nexo]
+author: YourName
+description: Advanced laboratory system with research and crafting
+softdepend: [Vault]
+
+permissions:
+  laboratory.use:
+    description: Allows using laboratory features
+    default: true
+  laboratory.admin:
+    description: Allows administrative laboratory functions
+    default: op
+
+commands:
+  teleport:
+    description: Teleport to a specific teleporter
+    usage: /teleport <id>
+    permission: laboratory.use
+  radiation:
+    description: Check radiation level
+    usage: /radiation
+    permission: laboratory.use
+  laboratory:
+    description: Laboratory admin commands
+    usage: /laboratory <reload|give|clear>
+    permission: laboratory.admin
