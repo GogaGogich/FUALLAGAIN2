@@ -16,7 +16,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <nexo.version>1.8.0</nexo.version>
+        <nexo.version>1.9.0</nexo.version>
         <paper.version>1.21.3-R0.1-SNAPSHOT</paper.version>
     </properties>
 
@@ -42,8 +42,7 @@
             <groupId>com.nexomc</groupId>
             <artifactId>nexo</artifactId>
             <version>${nexo.version}</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/nexo-1.9-dev-9c58749a8.jar</systemPath>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
