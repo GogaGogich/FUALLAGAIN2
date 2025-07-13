@@ -25,10 +25,6 @@
             <id>papermc-repo</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
-        <repository>
-            <id>nexo-releases</id>
-            <url>https://repo.nexomc.com/releases</url>
-        </repository>
     </repositories>
 
     <dependencies>

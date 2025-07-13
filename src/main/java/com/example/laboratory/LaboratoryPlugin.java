@@ -35,8 +35,18 @@ public class LaboratoryPlugin extends JavaPlugin {
         // Check if Nexo is available
         if (!getServer().getPluginManager().isPluginEnabled("Nexo")) {
             getLogger().severe("Nexo plugin not found! This plugin requires Nexo to function.");
+            getLogger().severe("Please install Nexo plugin separately (not included due to license restrictions).");
             getServer().getPluginManager().disablePlugin(this);
             return;
+        }
+        
+        // Verify Nexo version compatibility
+        Plugin nexoPlugin = getServer().getPluginManager().getPlugin("Nexo");
+        String nexoVersion = nexoPlugin.getDescription().getVersion();
+        getLogger().info("Found Nexo version: " + nexoVersion);
+        
+        if (!isNexoVersionCompatible(nexoVersion)) {
+            getLogger().warning("Nexo version " + nexoVersion + " may not be fully compatible. Recommended: 1.8.0+");
         }
         
         // Initialize managers
@@ -63,6 +73,11 @@ public class LaboratoryPlugin extends JavaPlugin {
             radiationManager.shutdown();
         }
         getLogger().info("Laboratory Plugin disabled!");
+    }
+    
+    private boolean isNexoVersionCompatible(String version) {
+        // Simple version check - можно улучшить
+        return version.startsWith("1.8") || version.startsWith("1.9");
     }
     
     public static LaboratoryPlugin getInstance() {
