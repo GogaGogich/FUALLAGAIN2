@@ -4,59 +4,80 @@ import com.example.laboratory.LaboratoryPlugin;
 import com.example.laboratory.gui.LaboratoryGUI;
 import com.example.laboratory.gui.AssemblerGUI;
 import com.example.laboratory.gui.TeleporterGUI;
-import com.nexomc.nexo.api.events.custom_block.noteblock.NexoNoteBlockInteractEvent;
-import com.nexomc.nexo.api.events.custom_block.stringblock.NexoStringBlockInteractEvent;
+import com.nexomc.nexo.mechanics.custom_block.noteblock.NoteBlockMechanic;
+import com.nexomc.nexo.mechanics.custom_block.noteblock.NoteBlockMechanicFactory;
+import com.nexomc.nexo.mechanics.custom_block.stringblock.StringBlockMechanic;
+import com.nexomc.nexo.mechanics.custom_block.stringblock.StringBlockMechanicFactory;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 public class BlockListener implements Listener {
     
     private final LaboratoryPlugin plugin;
+    private final NoteBlockMechanicFactory noteBlockFactory;
+    private final StringBlockMechanicFactory stringBlockFactory;
     
     public BlockListener(LaboratoryPlugin plugin) {
         this.plugin = plugin;
+        this.noteBlockFactory = NoteBlockMechanicFactory.getInstance();
+        this.stringBlockFactory = StringBlockMechanicFactory.getInstance();
     }
     
     @EventHandler
-    public void onNoteBlockInteract(NexoNoteBlockInteractEvent event) {
-        // Получаем ID блока через getCustomBlock().getId()
-        String blockId = event.getCustomBlock().getId();
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+        
+        Block block = event.getClickedBlock();
+        if (block == null) {
+            return;
+        }
+        
         Player player = event.getPlayer();
+        String blockId = getCustomBlockId(block);
         
-        // Логируем взаимодействие
-        plugin.getLogger().info("Player " + player.getName() + " interacted with NoteBlock: " + blockId);
-        Bukkit.getLogger().info("Игрок " + player.getName() + " кликнул NoteBlock с ID: " + blockId);
+        if (blockId == null) {
+            return; // Not a custom block
+        }
         
-        // Показываем ID игроку для отладки
-        player.sendMessage("§7[DEBUG] NoteBlock ID: §e" + blockId);
+        // Log interaction for debugging
+        plugin.getLogger().info("Player " + player.getName() + " interacted with custom block: " + blockId);
+        Bukkit.getLogger().info("Игрок " + player.getName() + " кликнул блок с ID: " + blockId);
         
-        handleBlockInteraction(player, blockId, event);
+        // Show ID to player for debugging
+        player.sendMessage("§7[DEBUG] Block ID: §e" + blockId);
+        
+        handleBlockInteraction(player, blockId, block.getLocation(), event);
     }
     
-    @EventHandler
-    public void onStringBlockInteract(NexoStringBlockInteractEvent event) {
-        // Получаем ID блока через getCustomBlock().getId()
-        String blockId = event.getCustomBlock().getId();
-        Player player = event.getPlayer();
+    private String getCustomBlockId(Block block) {
+        // Try NoteBlock mechanic first
+        NoteBlockMechanic noteBlockMechanic = noteBlockFactory.getMechanic(block.getBlockData());
+        if (noteBlockMechanic != null) {
+            return noteBlockMechanic.getItemID();
+        }
         
-        // Логируем взаимодействие
-        plugin.getLogger().info("Player " + player.getName() + " interacted with StringBlock: " + blockId);
-        Bukkit.getLogger().info("Игрок " + player.getName() + " кликнул StringBlock с ID: " + blockId);
+        // Try StringBlock mechanic
+        StringBlockMechanic stringBlockMechanic = stringBlockFactory.getMechanic(block.getBlockData());
+        if (stringBlockMechanic != null) {
+            return stringBlockMechanic.getItemID();
+        }
         
-        // Показываем ID игроку для отладки
-        player.sendMessage("§7[DEBUG] StringBlock ID: §e" + blockId);
-        
-        handleBlockInteraction(player, blockId, event);
+        return null; // Not a custom block
     }
     
-    // Общий метод для обработки взаимодействий с блоками
-    private void handleBlockInteraction(Player player, String blockId, Object event) {
+    private void handleBlockInteraction(Player player, String blockId, Location location, PlayerInteractEvent event) {
         switch (blockId) {
             case "laboratory_terminal":
-                cancelEvent(event);
+                event.setCancelled(true);
                 if (player.isSneaking()) {
                     handleResourceLoading(player, "laboratory");
                 } else {
@@ -65,7 +86,7 @@ public class BlockListener implements Listener {
                 break;
                 
             case "assembler":
-                cancelEvent(event);
+                event.setCancelled(true);
                 if (player.isSneaking()) {
                     handleResourceLoading(player, "assembler");
                 } else {
@@ -74,13 +95,13 @@ public class BlockListener implements Listener {
                 break;
                 
             case "teleporter":
-                cancelEvent(event);
-                new TeleporterGUI(plugin, player, getEventLocation(event)).open();
+                event.setCancelled(true);
+                new TeleporterGUI(plugin, player, location).open();
                 break;
                 
             case "centrifuge_block":
-                cancelEvent(event);
-                handleCentrifugeInteraction(player, event);
+                event.setCancelled(true);
+                handleCentrifugeInteraction(player, location);
                 break;
                 
             default:
@@ -88,25 +109,6 @@ public class BlockListener implements Listener {
                 player.sendMessage("§c[DEBUG] Неизвестный блок: " + blockId);
                 break;
         }
-    }
-    
-    // Универсальный метод для отмены события
-    private void cancelEvent(Object event) {
-        if (event instanceof NexoNoteBlockInteractEvent) {
-            ((NexoNoteBlockInteractEvent) event).setCancelled(true);
-        } else if (event instanceof NexoStringBlockInteractEvent) {
-            ((NexoStringBlockInteractEvent) event).setCancelled(true);
-        }
-    }
-    
-    // Универсальный метод для получения локации блока
-    private org.bukkit.Location getEventLocation(Object event) {
-        if (event instanceof NexoNoteBlockInteractEvent) {
-            return ((NexoNoteBlockInteractEvent) event).getBlock().getLocation();
-        } else if (event instanceof NexoStringBlockInteractEvent) {
-            return ((NexoStringBlockInteractEvent) event).getBlock().getLocation();
-        }
-        return null;
     }
     
     private void handleResourceLoading(Player player, String type) {
@@ -126,10 +128,7 @@ public class BlockListener implements Listener {
         }
     }
     
-    private void handleCentrifugeInteraction(Player player, Object event) {
-        org.bukkit.Location location = getEventLocation(event);
-        if (location == null) return;
-        
+    private void handleCentrifugeInteraction(Player player, Location location) {
         if (plugin.getCentrifugeManager().startCentrifuge(location)) {
             player.sendMessage("§aЦентрифуга запущена! Ожидайте " + 
                 (plugin.getConfigManager().getCentrifugeProcessTime() / 60) + " минут.");
@@ -137,7 +136,7 @@ public class BlockListener implements Listener {
             // Add particle effects (MC 1.21 compatible)
             location.getWorld().spawnParticle(
                 Particle.SMOKE, 
-                location.add(0.5, 1, 0.5), 
+                location.clone().add(0.5, 1, 0.5), 
                 10, 0.2, 0.2, 0.2, 0.01
             );
             
