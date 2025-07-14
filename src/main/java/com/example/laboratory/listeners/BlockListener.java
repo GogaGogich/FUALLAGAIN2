@@ -4,7 +4,8 @@ import com.example.laboratory.LaboratoryPlugin;
 import com.example.laboratory.gui.LaboratoryGUI;
 import com.example.laboratory.gui.AssemblerGUI;
 import com.example.laboratory.gui.TeleporterGUI;
-import com.nexomc.nexo.api.events.customblock.NexoCustomBlockInteractEvent;
+import com.nexomc.nexo.api.events.custom_block.NexoBlockInteractEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,11 +20,17 @@ public class BlockListener implements Listener {
     }
     
     @EventHandler
-    public void onCustomBlockClick(NexoCustomBlockInteractEvent event) {
-        String blockId = event.getCustomBlock().getId();
+    public void onBlockInteract(NexoBlockInteractEvent event) {
+        // Получаем ID блока
+        String blockId = event.getBlockId();
         Player player = event.getPlayer();
         
+        // Логируем взаимодействие
         plugin.getLogger().info("Player " + player.getName() + " interacted with custom block: " + blockId);
+        Bukkit.getLogger().info("Игрок " + player.getName() + " кликнул блок с ID: " + blockId);
+        
+        // Показываем ID игроку для отладки
+        player.sendMessage("§7[DEBUG] Block ID: §e" + blockId);
         
         switch (blockId) {
             case "laboratory_terminal":
@@ -56,6 +63,7 @@ public class BlockListener implements Listener {
                 
             default:
                 plugin.getLogger().info("Unknown custom block interaction: " + blockId);
+                player.sendMessage("§c[DEBUG] Неизвестный блок: " + blockId);
                 break;
         }
     }
@@ -77,7 +85,7 @@ public class BlockListener implements Listener {
         }
     }
     
-    private void handleCentrifugeInteraction(Player player, NexoCustomBlockInteractEvent event) {
+    private void handleCentrifugeInteraction(Player player, NexoBlockInteractEvent event) {
         if (plugin.getCentrifugeManager().startCentrifuge(event.getBlock().getLocation())) {
             player.sendMessage("§aЦентрифуга запущена! Ожидайте " + 
                 (plugin.getConfigManager().getCentrifugeProcessTime() / 60) + " минут.");
