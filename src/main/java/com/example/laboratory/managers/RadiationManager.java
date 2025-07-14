@@ -153,11 +153,10 @@ public class RadiationManager {
                 for (int z = -2; z <= 2; z++) {
                     Location checkLoc = location.clone().add(x, y, z);
                     
-                    // Check if block is uranium block
-                    com.nexomc.nexo.mechanics.custom_block.noteblock.NexoNoteBlock nexoBlock = 
-                        com.nexomc.nexo.api.NexoBlocks.noteBlockFromBlock(checkLoc.getBlock());
+                    // Check if block is uranium block using simple API
+                    String blockId = com.nexomc.nexo.api.NexoBlocks.idFromBlock(checkLoc.getBlock());
                     
-                    if (nexoBlock != null && "uranium_block".equals(nexoBlock.getItemID())) {
+                    if ("uranium_block".equals(blockId)) {
                         double distance = location.distance(checkLoc);
                         environmentalRadiation += (int) Math.max(1, 50 / (distance + 1));
                     }

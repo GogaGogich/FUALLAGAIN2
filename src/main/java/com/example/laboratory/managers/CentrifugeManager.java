@@ -3,7 +3,6 @@ package com.example.laboratory.managers;
 import com.example.laboratory.LaboratoryPlugin;
 import com.nexomc.nexo.api.NexoItems;
 import com.nexomc.nexo.api.NexoBlocks;
-import com.nexomc.nexo.api.NexoBlock;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -87,9 +86,9 @@ public class CentrifugeManager {
     public boolean isCentrifugeStructure(Location centerLocation) {
         Block center = centerLocation.getBlock();
         
-        // Check if center is centrifuge block using new Nexo API
-        NexoBlock nexoBlock = NexoBlocks.noteBlockFromBlock(center);
-        if (nexoBlock == null || !"centrifuge_block".equals(nexoBlock.getItemID())) {
+        // Check if center is centrifuge block
+        String blockId = NexoBlocks.idFromBlock(center);
+        if (!"centrifuge_block".equals(blockId)) {
             return false;
         }
         

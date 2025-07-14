@@ -282,17 +282,15 @@ public class PlayerListener implements Listener {
     }
     
     private void bindTabletToStructure(Player player, ItemStack tablet, Location location) {
-        // Enhanced structure binding with validation
-        com.nexomc.nexo.api.NexoBlock nexoBlock = 
-            com.nexomc.nexo.api.NexoBlocks.noteBlockFromBlock(location.getBlock());
+        // Structure binding with validation
+        String blockId = com.nexomc.nexo.api.NexoBlocks.idFromBlock(location.getBlock());
             
-        if (nexoBlock == null) {
+        if (blockId == null) {
             player.sendMessage("§cЭто не является структурой лаборатории!");
             return;
         }
         
-        String blockId = nexoBlock.getItemID();
-        if (blockId == null || !isValidStructureType(blockId)) {
+        if (!isValidStructureType(blockId)) {
             player.sendMessage("§cЭтот блок нельзя привязать к планшету!");
             return;
         }
