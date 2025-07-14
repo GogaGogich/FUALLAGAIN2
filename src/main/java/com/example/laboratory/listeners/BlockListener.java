@@ -32,29 +32,46 @@ public class BlockListener implements Listener {
     
     private void initializeNexoFactories() {
         try {
+            // Получаем инстанс плагина Nexo
             NexoPlugin nexoPlugin = (NexoPlugin) Bukkit.getPluginManager().getPlugin("Nexo");
-            if (nexoPlugin != null) {
-                // Попробуем получить фабрики через NexoPlugin
-                // Возможные методы в Nexo 1.9.0:
+            if (nexoPlugin == null) {
+                plugin.getLogger().severe("Nexo plugin not found!");
+                return;
+            }
+            
+            // Пробуем разные способы получения фабрик в зависимости от версии Nexo
+            try {
+                // Способ 1: Через configsManager (возможно в новых версиях)
                 this.noteBlockFactory = nexoPlugin.configsManager().getMechanics().getNoteBlockMechanicFactory();
                 this.stringBlockFactory = nexoPlugin.configsManager().getMechanics().getStringBlockMechanicFactory();
-                
-                plugin.getLogger().info("Nexo factories initialized successfully!");
-            } else {
-                plugin.getLogger().severe("Nexo plugin not found!");
+                plugin.getLogger().info("Nexo factories initialized via configsManager!");
+            } catch (Exception e1) {
+                try {
+                    // Способ 2: Прямые методы (если они есть)
+                    this.noteBlockFactory = nexoPlugin.getNoteBlockMechanicFactory();
+                    this.stringBlockFactory = nexoPlugin.getStringBlockMechanicFactory();
+                    plugin.getLogger().info("Nexo factories initialized via direct methods!");
+                } catch (Exception e2) {
+                    try {
+                        // Способ 3: Через механики менеджер (если есть)
+                        Object mechanicsManager = nexoPlugin.getClass().getMethod("getMechanicsManager").invoke(nexoPlugin);
+                        this.noteBlockFactory = (NoteBlockMechanicFactory) mechanicsManager.getClass()
+                            .getMethod("getNoteBlockMechanicFactory").invoke(mechanicsManager);
+                        this.stringBlockFactory = (StringBlockMechanicFactory) mechanicsManager.getClass()
+                            .getMethod("getStringBlockMechanicFactory").invoke(mechanicsManager);
+                        plugin.getLogger().info("Nexo factories initialized via mechanics manager!");
+                    } catch (Exception e3) {
+                        plugin.getLogger().severe("Failed to initialize Nexo factories with all methods!");
+                        plugin.getLogger().severe("Method 1 error: " + e1.getMessage());
+                        plugin.getLogger().severe("Method 2 error: " + e2.getMessage());
+                        plugin.getLogger().severe("Method 3 error: " + e3.getMessage());
+                    }
+                }
             }
-        } catch (Exception e) {
-            plugin.getLogger().severe("Failed to initialize Nexo factories: " + e.getMessage());
-            e.printStackTrace();
             
-            // Fallback: попробуем статические методы (если они есть)
-            try {
-                this.noteBlockFactory = NoteBlockMechanicFactory.getInstance();
-                this.stringBlockFactory = StringBlockMechanicFactory.getInstance();
-                plugin.getLogger().info("Using fallback static factory methods");
-            } catch (Exception fallbackError) {
-                plugin.getLogger().severe("Fallback factory initialization also failed: " + fallbackError.getMessage());
-            }
+        } catch (Exception e) {
+            plugin.getLogger().severe("Critical error initializing Nexo factories: " + e.getMessage());
+            e.printStackTrace();
         }
     }
     
