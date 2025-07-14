@@ -4,6 +4,7 @@ import com.example.laboratory.LaboratoryPlugin;
 import com.example.laboratory.gui.LaboratoryGUI;
 import com.example.laboratory.gui.AssemblerGUI;
 import com.example.laboratory.gui.TeleporterGUI;
+import com.nexomc.nexo.NexoPlugin;
 import com.nexomc.nexo.mechanics.custom_block.noteblock.NoteBlockMechanic;
 import com.nexomc.nexo.mechanics.custom_block.noteblock.NoteBlockMechanicFactory;
 import com.nexomc.nexo.mechanics.custom_block.stringblock.StringBlockMechanic;
@@ -21,13 +22,40 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class BlockListener implements Listener {
     
     private final LaboratoryPlugin plugin;
-    private final NoteBlockMechanicFactory noteBlockFactory;
-    private final StringBlockMechanicFactory stringBlockFactory;
+    private NoteBlockMechanicFactory noteBlockFactory;
+    private StringBlockMechanicFactory stringBlockFactory;
     
     public BlockListener(LaboratoryPlugin plugin) {
         this.plugin = plugin;
-        this.noteBlockFactory = NoteBlockMechanicFactory.getInstance();
-        this.stringBlockFactory = StringBlockMechanicFactory.getInstance();
+        initializeNexoFactories();
+    }
+    
+    private void initializeNexoFactories() {
+        try {
+            NexoPlugin nexoPlugin = (NexoPlugin) Bukkit.getPluginManager().getPlugin("Nexo");
+            if (nexoPlugin != null) {
+                // Попробуем получить фабрики через NexoPlugin
+                // Возможные методы в Nexo 1.9.0:
+                this.noteBlockFactory = nexoPlugin.configsManager().getMechanics().getNoteBlockMechanicFactory();
+                this.stringBlockFactory = nexoPlugin.configsManager().getMechanics().getStringBlockMechanicFactory();
+                
+                plugin.getLogger().info("Nexo factories initialized successfully!");
+            } else {
+                plugin.getLogger().severe("Nexo plugin not found!");
+            }
+        } catch (Exception e) {
+            plugin.getLogger().severe("Failed to initialize Nexo factories: " + e.getMessage());
+            e.printStackTrace();
+            
+            // Fallback: попробуем статические методы (если они есть)
+            try {
+                this.noteBlockFactory = NoteBlockMechanicFactory.getInstance();
+                this.stringBlockFactory = StringBlockMechanicFactory.getInstance();
+                plugin.getLogger().info("Using fallback static factory methods");
+            } catch (Exception fallbackError) {
+                plugin.getLogger().severe("Fallback factory initialization also failed: " + fallbackError.getMessage());
+            }
+        }
     }
     
     @EventHandler
@@ -50,7 +78,6 @@ public class BlockListener implements Listener {
         
         // Log interaction for debugging
         plugin.getLogger().info("Player " + player.getName() + " interacted with custom block: " + blockId);
-        Bukkit.getLogger().info("Игрок " + player.getName() + " кликнул блок с ID: " + blockId);
         
         // Show ID to player for debugging
         player.sendMessage("§7[DEBUG] Block ID: §e" + blockId);
@@ -59,16 +86,29 @@ public class BlockListener implements Listener {
     }
     
     private String getCustomBlockId(Block block) {
-        // Try NoteBlock mechanic first
-        NoteBlockMechanic noteBlockMechanic = noteBlockFactory.getMechanic(block.getBlockData());
-        if (noteBlockMechanic != null) {
-            return noteBlockMechanic.getItemID();
+        if (noteBlockFactory == null && stringBlockFactory == null) {
+            plugin.getLogger().warning("Nexo factories not initialized!");
+            return null;
         }
         
-        // Try StringBlock mechanic
-        StringBlockMechanic stringBlockMechanic = stringBlockFactory.getMechanic(block.getBlockData());
-        if (stringBlockMechanic != null) {
-            return stringBlockMechanic.getItemID();
+        try {
+            // Try NoteBlock mechanic first
+            if (noteBlockFactory != null) {
+                NoteBlockMechanic noteBlockMechanic = noteBlockFactory.getMechanic(block.getBlockData());
+                if (noteBlockMechanic != null) {
+                    return noteBlockMechanic.getItemID();
+                }
+            }
+            
+            // Try StringBlock mechanic
+            if (stringBlockFactory != null) {
+                StringBlockMechanic stringBlockMechanic = stringBlockFactory.getMechanic(block.getBlockData());
+                if (stringBlockMechanic != null) {
+                    return stringBlockMechanic.getItemID();
+                }
+            }
+        } catch (Exception e) {
+            plugin.getLogger().warning("Error getting custom block ID: " + e.getMessage());
         }
         
         return null; // Not a custom block
