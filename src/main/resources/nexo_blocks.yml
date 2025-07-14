@@ -1,17 +1,17 @@
-# Nexo Blocks Configuration for Laboratory Plugin
-# This file defines all custom blocks used in the laboratory system
+# Nexo Blocks Configuration for Laboratory Plugin (Nexo 1.9 Compatible)
 
 laboratory_terminal:
   material: CRAFTING_TABLE
-  Mechanics:
-    custom_block:
-      type: NOTEBLOCK
   displayname: "<#00ffff>Терминал лаборатории"
   lore:
     - "<#gray>Центр исследований"
     - "<#green>ПКМ - открыть интерфейс"
     - "<#green>Shift + ПКМ - загрузить ресурсы"
   custom_model_data: 2001
+  Mechanics:
+    noteblock:
+      custom_variation: 1
+      instrument: HARP
   hardness: 3.0
   drop:
     items:
@@ -19,15 +19,16 @@ laboratory_terminal:
 
 assembler:
   material: SMITHING_TABLE
-  Mechanics:
-    custom_block:
-      type: NOTEBLOCK
   displayname: "<#ffff00>Сборщик"
   lore:
     - "<#gray>Сборка исследованных предметов"
     - "<#green>ПКМ - открыть интерфейс"
     - "<#green>Shift + ПКМ - загрузить ресурсы"
   custom_model_data: 2002
+  Mechanics:
+    noteblock:
+      custom_variation: 2
+      instrument: BASS
   hardness: 3.0
   drop:
     items:
@@ -35,15 +36,17 @@ assembler:
 
 centrifuge_block:
   material: BLAST_FURNACE
-  Mechanics:
-    custom_block:
-      type: NOTEBLOCK
   displayname: "<#00ff00>Блок центрифуги"
   lore:
     - "<#gray>Производство урановой пыли"
     - "<#yellow>Требует структуру 3x3"
     - "<#green>ПКМ - запустить центрифугу"
+    - "<#red>Время работы: 5 минут"
   custom_model_data: 2003
+  Mechanics:
+    noteblock:
+      custom_variation: 3
+      instrument: BELL
   hardness: 5.0
   drop:
     items:
@@ -51,14 +54,16 @@ centrifuge_block:
 
 teleporter:
   material: END_PORTAL_FRAME
-  Mechanics:
-    custom_block:
-      type: NOTEBLOCK
   displayname: "<#ff00ff>Телепорт"
   lore:
     - "<#gray>Мгновенная телепортация"
     - "<#green>ПКМ для открытия интерфейса"
+    - "<#yellow>Требует исследования"
   custom_model_data: 2004
+  Mechanics:
+    noteblock:
+      custom_variation: 4
+      instrument: CHIME
   hardness: 10.0
   drop:
     items:

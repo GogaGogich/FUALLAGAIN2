@@ -5,13 +5,8 @@ import com.example.laboratory.commands.TeleportCommand;
 import com.example.laboratory.commands.LaboratoryCommand;
 import com.example.laboratory.listeners.BlockListener;
 import com.example.laboratory.listeners.PlayerListener;
-import com.example.laboratory.managers.CentrifugeManager;
-import com.example.laboratory.managers.RadiationManager;
-import com.example.laboratory.managers.ResearchManager;
-import com.example.laboratory.managers.TeleportManager;
-import com.example.laboratory.managers.TabletManager;
-import com.example.laboratory.managers.ConfigManager;
-import com.example.laboratory.managers.DataManager;
+import com.example.laboratory.managers.*;
+import com.example.laboratory.utils.MessageUtils;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,6 +20,7 @@ public class LaboratoryPlugin extends JavaPlugin {
     private TabletManager tabletManager;
     private ConfigManager configManager;
     private DataManager dataManager;
+    private RecipeManager recipeManager;
     
     @Override
     public void onEnable() {
@@ -36,7 +32,7 @@ public class LaboratoryPlugin extends JavaPlugin {
         // Check if Nexo is available
         if (!getServer().getPluginManager().isPluginEnabled("Nexo")) {
             getLogger().severe("Nexo plugin not found! This plugin requires Nexo to function.");
-            getLogger().severe("Please install Nexo plugin separately (not included due to license restrictions).");
+            getLogger().severe("Please install Nexo plugin and restart the server.");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -47,8 +43,11 @@ public class LaboratoryPlugin extends JavaPlugin {
         getLogger().info("Found Nexo version: " + nexoVersion);
         
         if (!isNexoVersionCompatible(nexoVersion)) {
-            getLogger().warning("Nexo version " + nexoVersion + " may not be fully compatible. Recommended: 1.8.0+");
+            getLogger().warning("Nexo version " + nexoVersion + " may not be fully compatible. Recommended: 1.9.0+");
         }
+        
+        // Initialize message utils
+        MessageUtils.init(this);
         
         // Initialize managers
         dataManager = new DataManager(this);
@@ -58,6 +57,7 @@ public class LaboratoryPlugin extends JavaPlugin {
         teleportManager = new TeleportManager(this);
         centrifugeManager = new CentrifugeManager(this);
         tabletManager = new TabletManager(this);
+        recipeManager = new RecipeManager(this);
         
         // Register listeners
         getServer().getPluginManager().registerEvents(new BlockListener(this), this);
@@ -68,6 +68,14 @@ public class LaboratoryPlugin extends JavaPlugin {
         getCommand("radiation").setExecutor(new RadiationCommand(radiationManager));
         getCommand("laboratory").setExecutor(new LaboratoryCommand(this));
         
+        // Register recipes
+        recipeManager.registerRecipes();
+        
+        // Auto-save task
+        getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
+            dataManager.saveData();
+        }, 0L, configManager.getConfig().getInt("research.auto-save-interval", 600) * 20L);
+        
         getLogger().info("Laboratory Plugin enabled successfully!");
     }
     
@@ -76,12 +84,21 @@ public class LaboratoryPlugin extends JavaPlugin {
         if (radiationManager != null) {
             radiationManager.shutdown();
         }
+        if (dataManager != null) {
+            dataManager.saveData();
+        }
         getLogger().info("Laboratory Plugin disabled!");
     }
     
     private boolean isNexoVersionCompatible(String version) {
-        // Simple version check - можно улучшить
-        return version.startsWith("1.8") || version.startsWith("1.9");
+        try {
+            String[] parts = version.split("\\.");
+            int major = Integer.parseInt(parts[0]);
+            int minor = Integer.parseInt(parts[1]);
+            return major > 1 || (major == 1 && minor >= 9);
+        } catch (Exception e) {
+            return false;
+        }
     }
     
     public static LaboratoryPlugin getInstance() {
@@ -114,5 +131,9 @@ public class LaboratoryPlugin extends JavaPlugin {
     
     public DataManager getDataManager() {
         return dataManager;
+    }
+    
+    public RecipeManager getRecipeManager() {
+        return recipeManager;
     }
 }

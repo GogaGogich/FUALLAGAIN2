@@ -1,5 +1,4 @@
-# Nexo Items Configuration for Laboratory Plugin
-# This file defines all custom items used in the laboratory system
+# Nexo Items Configuration for Laboratory Plugin (Nexo 1.9 Compatible)
 
 uranium_dust:
   material: GUNPOWDER
@@ -7,6 +6,7 @@ uranium_dust:
   lore:
     - "<#ffff00>Радиоактивный материал"
     - "<#ff0000>⚠ Излучает радиацию!"
+    - "<#gray>Используется в центрифуге"
   custom_model_data: 1001
 
 uranium_ingot:
@@ -15,6 +15,7 @@ uranium_ingot:
   lore:
     - "<#ffff00>Спрессованная урановая пыль"
     - "<#ff0000>⚠ Сильно излучает радиацию!"
+    - "<#gray>9x урановой пыли"
   custom_model_data: 1002
 
 uranium_block:
@@ -23,6 +24,7 @@ uranium_block:
   lore:
     - "<#ffff00>Концентрированный уран"
     - "<#ff0000>⚠ КРАЙНЕ радиоактивен!"
+    - "<#gray>81x урановой пыли"
   custom_model_data: 1003
 
 uranium_capsule:
@@ -41,6 +43,7 @@ quantum_core:
   lore:
     - "<#ffff00>Основной компонент для крафтов"
     - "<#gray>Используется в продвинутых технологиях"
+    - "<#aqua>Требует исследования"
   custom_model_data: 1005
 
 geiger_counter:
@@ -49,6 +52,7 @@ geiger_counter:
   lore:
     - "<#gray>Измеряет уровень радиации"
     - "<#green>ПКМ для проверки радиации"
+    - "<#yellow>Показывает точный уровень"
   custom_model_data: 1006
 
 tablet:
@@ -58,13 +62,16 @@ tablet:
     - "<#gray>Дистанционный мониторинг"
     - "<#green>Shift + ПКМ по блоку - привязать"
     - "<#green>ПКМ - открыть интерфейс"
+    - "<#yellow>Максимум 50 структур"
   custom_model_data: 1007
 
+# Chemical Protection Armor
 chem_protection_helmet:
   material: LEATHER_HELMET
   displayname: "<#ffff00>Шлем хим защиты"
   lore:
     - "<#gray>Защита от радиации"
+    - "<#green>Часть костюма хим защиты"
   custom_model_data: 1008
 
 chem_protection_chestplate:
@@ -72,6 +79,7 @@ chem_protection_chestplate:
   displayname: "<#ffff00>Нагрудник хим защиты"
   lore:
     - "<#gray>Защита от радиации"
+    - "<#green>Часть костюма хим защиты"
   custom_model_data: 1009
 
 chem_protection_leggings:
@@ -79,6 +87,7 @@ chem_protection_leggings:
   displayname: "<#ffff00>Поножи хим защиты"
   lore:
     - "<#gray>Защита от радиации"
+    - "<#green>Часть костюма хим защиты"
   custom_model_data: 1010
 
 chem_protection_boots:
@@ -86,14 +95,17 @@ chem_protection_boots:
   displayname: "<#ffff00>Ботинки хим защиты"
   lore:
     - "<#gray>Защита от радиации"
+    - "<#green>Часть костюма хим защиты"
   custom_model_data: 1011
 
+# Power Armor
 power_armor_helmet:
   material: NETHERITE_HELMET
   displayname: "<#ff0000>Шлем силовой брони"
   lore:
     - "<#gray>Продвинутая защита от радиации"
     - "<#ffff00>+ Дополнительные режимы"
+    - "<#red>Высокотехнологичная броня"
   custom_model_data: 1012
 
 power_armor_chestplate:
@@ -102,6 +114,7 @@ power_armor_chestplate:
   lore:
     - "<#gray>Продвинутая защита от радиации"
     - "<#ffff00>+ Дополнительные режимы"
+    - "<#red>Высокотехнологичная броня"
   custom_model_data: 1013
 
 power_armor_leggings:
@@ -110,6 +123,7 @@ power_armor_leggings:
   lore:
     - "<#gray>Продвинутая защита от радиации"
     - "<#ffff00>+ Дополнительные режимы"
+    - "<#red>Высокотехнологичная броня"
   custom_model_data: 1014
 
 power_armor_boots:
@@ -118,15 +132,48 @@ power_armor_boots:
   lore:
     - "<#gray>Продвинутая защита от радиации"
     - "<#ffff00>+ Дополнительные режимы"
+    - "<#red>Высокотехнологичная броня"
   custom_model_data: 1015
 
+# Weapons and Tools
 railgun:
   material: CROSSBOW
   displayname: "<#ff0000>Рельсатрон"
   lore:
     - "<#gray>Электромагнитное оружие"
     - "<#ffff00>Различные режимы стрельбы"
+    - "<#green>ПКМ - сменить режим"
+    - "<#red>Режим: Обычный"
   custom_model_data: 1016
+
+# Blocks as items
+laboratory_terminal:
+  material: CRAFTING_TABLE
+  displayname: "<#00ffff>Терминал лаборатории"
+  lore:
+    - "<#gray>Центр исследований"
+    - "<#green>ПКМ - открыть интерфейс"
+    - "<#green>Shift + ПКМ - загрузить ресурсы"
+  custom_model_data: 2001
+
+assembler:
+  material: SMITHING_TABLE
+  displayname: "<#ffff00>Сборщик"
+  lore:
+    - "<#gray>Сборка исследованных предметов"
+    - "<#green>ПКМ - открыть интерфейс"
+    - "<#green>Shift + ПКМ - загрузить ресурсы"
+  custom_model_data: 2002
+
+centrifuge_block:
+  material: BLAST_FURNACE
+  displayname: "<#00ff00>Блок центрифуги"
+  lore:
+    - "<#gray>Производство урановой пыли"
+    - "<#yellow>Требует структуру 3x3"
+    - "<#green>ПКМ - запустить центрифугу"
+    - "<#red>Время работы: 5 минут"
+  custom_model_data: 2003
 
 teleporter:
   material: END_PORTAL_FRAME
@@ -134,4 +181,5 @@ teleporter:
   lore:
     - "<#gray>Мгновенная телепортация"
     - "<#green>ПКМ для открытия интерфейса"
-  custom_model_data: 1017
+    - "<#yellow>Требует исследования"
+  custom_model_data: 2004

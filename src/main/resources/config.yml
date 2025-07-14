@@ -1,4 +1,4 @@
-# Laboratory Plugin Configuration
+# Laboratory Plugin Configuration (Enhanced)
 
 # Radiation settings
 radiation:
@@ -8,21 +8,40 @@ radiation:
     medium-threshold: 50   # Medium radiation level  
     high-threshold: 100    # High radiation level
     critical-threshold: 200 # Critical radiation level
+  environmental:
+    uranium-block-radius: 5  # Blocks to check around player for uranium
+    uranium-block-radiation: 50  # Base radiation from uranium block
 
 # Centrifuge settings
 centrifuge:
   process-time: 300  # Seconds to process uranium (5 minutes)
   min-uranium: 1     # Minimum uranium dust output
   max-uranium: 5     # Maximum uranium dust output
+  structure-check: true  # Verify 3x3 structure
 
 # Research settings
 research:
   auto-save-interval: 600  # Seconds between auto-saves (10 minutes)
+  allow-parallel: false    # Allow multiple researches at once
+  material-consumption: true  # Consume materials when starting research
 
 # Tablet settings
 tablet:
   max-structures: 50    # Maximum structures per tablet
   update-interval: 40   # Ticks between tablet updates (2 seconds)
+  bind-distance: 100    # Maximum distance to bind structures
+
+# GUI settings
+gui:
+  auto-refresh: true    # Auto-refresh GUIs
+  refresh-interval: 60  # Ticks between GUI refreshes (3 seconds)
+  sound-effects: true   # Enable sound effects in GUIs
+
+# Performance settings
+performance:
+  async-saves: true     # Use async saves for better performance
+  cache-duration: 300   # Cache duration in seconds
+  max-particles: 50     # Maximum particles per effect
 
 # Messages
 messages:
@@ -32,3 +51,24 @@ messages:
   radiation-cleared: "§aУровень радиации сброшен!"
   research-completed: "§aИсследование завершено!"
   structure-blocked: "§cЭта структура заблокирована!"
+  research-started: "§aИсследование '{research}' начато! Время: {time}"
+  research-no-materials: "§cНедостаточно материалов для исследования!"
+  research-already-active: "§cУ вас уже есть активное исследование!"
+  centrifuge-started: "§aЦентрифуга запущена! Ожидайте {time} минут."
+  centrifuge-completed: "§aЦентрифуга завершила работу! Получено: {amount} урановой пыли"
+  centrifuge-invalid-structure: "§cНеправильная структура центрифуги!"
+  tablet-structure-bound: "§aСтруктура привязана к планшету! ID: {id}"
+  tablet-structure-unbound: "§aСтруктура отвязана от планшета!"
+  tablet-max-structures: "§cДостигнут лимит структур на планшете! Максимум: {max}"
+  teleport-success: "§aТелепортация выполнена!"
+  teleport-not-found: "§cТелепорт с ID '{id}' не найден!"
+  capsule-stored: "§aУран сохранен в капсуле! Всего: {amount}/{max}"
+  capsule-extracted: "§aИзвлечено {amount} урановой пыли!"
+  capsule-empty: "§cКапсула пуста!"
+  capsule-full: "§cКапсула полна! (Максимум: {max})"
+
+# Debug settings
+debug:
+  enabled: false        # Enable debug logging
+  verbose: false        # Verbose debug output
+  log-interactions: true # Log block/item interactions
