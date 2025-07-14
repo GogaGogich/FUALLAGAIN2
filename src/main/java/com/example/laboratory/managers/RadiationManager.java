@@ -11,8 +11,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 import com.example.laboratory.LaboratoryPlugin;
 import com.nexomc.nexo.api.NexoItems;
-import com.nexomc.nexo.api.NexoBlocks;
-import com.nexomc.nexo.mechanics.noteblock.NoteBlockMechanic;
 
 import java.util.HashMap;
 import java.util.Map;

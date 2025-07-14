@@ -4,7 +4,7 @@ import com.example.laboratory.LaboratoryPlugin;
 import com.example.laboratory.gui.LaboratoryGUI;
 import com.example.laboratory.gui.AssemblerGUI;
 import com.example.laboratory.gui.TeleporterGUI;
-import com.nexomc.nexo.api.events.NexoStringBlockInteractEvent;
+import com.nexomc.nexo.api.events.customblock.NexoCustomBlockInteractEvent;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,7 +19,7 @@ public class BlockListener implements Listener {
     }
     
     @EventHandler
-    public void onNexoBlockInteract(NexoStringBlockInteractEvent event) {
+    public void onCustomBlockClick(NexoCustomBlockInteractEvent event) {
         String blockId = event.getCustomBlock().getId();
         Player player = event.getPlayer();
         
@@ -77,7 +77,7 @@ public class BlockListener implements Listener {
         }
     }
     
-    private void handleCentrifugeInteraction(Player player, NexoStringBlockInteractEvent event) {
+    private void handleCentrifugeInteraction(Player player, NexoCustomBlockInteractEvent event) {
         if (plugin.getCentrifugeManager().startCentrifuge(event.getBlock().getLocation())) {
             player.sendMessage("§aЦентрифуга запущена! Ожидайте " + 
                 (plugin.getConfigManager().getCentrifugeProcessTime() / 60) + " минут.");
