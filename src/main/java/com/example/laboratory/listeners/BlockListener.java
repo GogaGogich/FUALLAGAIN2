@@ -5,6 +5,7 @@ import com.example.laboratory.gui.LaboratoryGUI;
 import com.example.laboratory.gui.AssemblerGUI;
 import com.example.laboratory.gui.TeleporterGUI;
 import com.nexomc.nexo.api.NexoBlocks;
+import com.nexomc.nexo.mechanics.noteblock.NoteBlockMechanic;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;

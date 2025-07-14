@@ -4,6 +4,7 @@ import com.example.laboratory.LaboratoryPlugin;
 import com.example.laboratory.gui.TabletGUI;
 import com.nexomc.nexo.api.NexoItems;
 import com.nexomc.nexo.api.NexoBlocks;
+import com.nexomc.nexo.mechanics.noteblock.NoteBlockMechanic;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
