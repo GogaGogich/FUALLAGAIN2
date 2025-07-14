@@ -4,11 +4,13 @@ import com.example.laboratory.LaboratoryPlugin;
 import com.example.laboratory.gui.LaboratoryGUI;
 import com.example.laboratory.gui.AssemblerGUI;
 import com.example.laboratory.gui.TeleporterGUI;
-import com.nexomc.nexo.api.events.custom_block.NexoStringBlockInteractEvent;
+import com.nexomc.nexo.api.NexoBlocks;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 public class BlockListener implements Listener {
     
@@ -19,10 +21,30 @@ public class BlockListener implements Listener {
     }
     
     @EventHandler
-    public void onNexoBlockInteract(NexoStringBlockInteractEvent event) {
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+        
+        Block block = event.getClickedBlock();
+        if (block == null) {
+            return;
+        }
+        
         Player player = event.getPlayer();
-        Block block = event.getBlock();
-        String blockId = event.getCustomBlock().getId();
+        
+        // Check if it's a Nexo custom block
+        String blockId = null;
+        try {
+            blockId = NexoBlocks.idFromBlock(block);
+        } catch (Exception e) {
+            // Not a Nexo block or API error
+            return;
+        }
+        
+        if (blockId == null) {
+            return;
+        }
         
         plugin.getLogger().info("Player " + player.getName() + " interacted with custom block: " + blockId);
         

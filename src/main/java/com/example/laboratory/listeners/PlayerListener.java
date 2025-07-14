@@ -187,12 +187,36 @@ public class PlayerListener implements Listener {
     }
     
     private void bindTabletToStructure(Player player, ItemStack tablet, org.bukkit.Location location) {
-        // Implementation for binding tablet to structures
-        player.sendMessage("§aПланшет привязан к структуре!");
+        // Check if clicked block is a Nexo custom block
+        String blockId = null;
+        try {
+            blockId = com.nexomc.nexo.api.NexoBlocks.idFromBlock(location.getBlock());
+        } catch (Exception e) {
+            player.sendMessage("§cЭто не является структурой лаборатории!");
+            return;
+        }
+        
+        if (blockId == null) {
+            player.sendMessage("§cЭто не является структурой лаборатории!");
+            return;
+        }
+        
+        // Check if it's a valid structure type
+        if (isValidStructureType(blockId)) {
+            plugin.getTabletManager().bindStructure(player, location, blockId);
+        } else {
+            player.sendMessage("§cЭтот блок нельзя привязать к планшету!");
+        }
+    }
+    
+    private boolean isValidStructureType(String blockId) {
+        return blockId.equals("laboratory_terminal") || 
+               blockId.equals("assembler") || 
+               blockId.equals("centrifuge_block") || 
+               blockId.equals("teleporter");
     }
     
     private void showTabletInterface(Player player, ItemStack tablet) {
-        // Implementation for showing tablet interface
-        player.sendMessage("§aИнтерфейс планшета открыт!");
+        new com.example.laboratory.gui.TabletGUI(plugin, player).open();
     }
 }
