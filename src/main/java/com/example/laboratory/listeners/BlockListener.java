@@ -5,7 +5,7 @@ import com.example.laboratory.gui.LaboratoryGUI;
 import com.example.laboratory.gui.AssemblerGUI;
 import com.example.laboratory.gui.TeleporterGUI;
 import com.nexomc.nexo.api.NexoBlocks;
-import com.nexomc.nexo.mechanics.custom_block.noteblock.NexoNoteBlock;
+import com.nexomc.nexo.api.NexoBlock;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,7 +35,7 @@ public class BlockListener implements Listener {
         Player player = event.getPlayer();
         
         // Check if it's a Nexo custom block using new API
-        NexoNoteBlock nexoBlock = NexoBlocks.noteBlockFromBlock(block);
+        NexoBlock nexoBlock = NexoBlocks.noteBlockFromBlock(block);
         if (nexoBlock == null) {
             return;
         }

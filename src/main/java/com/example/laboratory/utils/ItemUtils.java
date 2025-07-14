@@ -27,7 +27,7 @@ public class ItemUtils {
     
     public static ItemStack createNexoItem(String itemId, int amount) {
         try {
-            ItemStack item = NexoItems.itemFromId(itemId).build();
+            ItemStack item = NexoItems.itemFromId(itemId);
             if (item != null) {
                 item.setAmount(amount);
                 return item;

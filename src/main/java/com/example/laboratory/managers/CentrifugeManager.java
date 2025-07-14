@@ -3,7 +3,7 @@ package com.example.laboratory.managers;
 import com.example.laboratory.LaboratoryPlugin;
 import com.nexomc.nexo.api.NexoItems;
 import com.nexomc.nexo.api.NexoBlocks;
-import com.nexomc.nexo.mechanics.custom_block.noteblock.NexoNoteBlock;
+import com.nexomc.nexo.api.NexoBlock;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -88,7 +88,7 @@ public class CentrifugeManager {
         Block center = centerLocation.getBlock();
         
         // Check if center is centrifuge block using new Nexo API
-        NexoNoteBlock nexoBlock = NexoBlocks.noteBlockFromBlock(center);
+        NexoBlock nexoBlock = NexoBlocks.noteBlockFromBlock(center);
         if (nexoBlock == null || !"centrifuge_block".equals(nexoBlock.getItemID())) {
             return false;
         }
