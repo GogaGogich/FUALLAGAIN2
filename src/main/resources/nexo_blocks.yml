@@ -9,7 +9,7 @@ laboratory_terminal:
     - "<#green>Shift + ПКМ - загрузить ресурсы"
   custom_model_data: 2001
   Mechanics:
-    custom_block:
+    noteblock:
       model: laboratory_terminal
   hardness: 3.0
   drop:
@@ -25,7 +25,7 @@ assembler:
     - "<#green>Shift + ПКМ - загрузить ресурсы"
   custom_model_data: 2002
   Mechanics:
-    custom_block:
+    noteblock:
       model: assembler
   hardness: 3.0
   drop:
@@ -42,7 +42,7 @@ centrifuge_block:
     - "<#red>Время работы: 5 минут"
   custom_model_data: 2003
   Mechanics:
-    custom_block:
+    stringblock:
       model: centrifuge_block
   hardness: 5.0
   drop:
@@ -58,7 +58,7 @@ teleporter:
     - "<#yellow>Требует исследования"
   custom_model_data: 2004
   Mechanics:
-    custom_block:
+    noteblock:
       model: teleporter
   hardness: 10.0
   drop:
