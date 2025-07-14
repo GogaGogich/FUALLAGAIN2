@@ -7,7 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.ShapelessRecipe;
 
 public class RecipeManager {
     
@@ -27,31 +26,39 @@ public class RecipeManager {
     }
     
     private void registerUraniumIngotRecipe() {
-        ItemStack uraniumIngot = NexoItems.itemFromId("uranium_ingot");
+        ItemStack uraniumIngot = NexoItems.itemFromId("uranium_ingot").build();
         if (uraniumIngot == null) return;
         
         NamespacedKey key = new NamespacedKey(plugin, "uranium_ingot");
         ShapedRecipe recipe = new ShapedRecipe(key, uraniumIngot);
         recipe.shape("UUU", "UUU", "UUU");
-        recipe.setIngredient('U', NexoItems.itemFromId("uranium_dust").getType());
+        
+        ItemStack uraniumDust = NexoItems.itemFromId("uranium_dust").build();
+        if (uraniumDust != null) {
+            recipe.setIngredient('U', uraniumDust.getType());
+        }
         
         Bukkit.addRecipe(recipe);
     }
     
     private void registerUraniumBlockRecipe() {
-        ItemStack uraniumBlock = NexoItems.itemFromId("uranium_block");
+        ItemStack uraniumBlock = NexoItems.itemFromId("uranium_block").build();
         if (uraniumBlock == null) return;
         
         NamespacedKey key = new NamespacedKey(plugin, "uranium_block");
         ShapedRecipe recipe = new ShapedRecipe(key, uraniumBlock);
         recipe.shape("III", "III", "III");
-        recipe.setIngredient('I', NexoItems.itemFromId("uranium_ingot").getType());
+        
+        ItemStack uraniumIngot = NexoItems.itemFromId("uranium_ingot").build();
+        if (uraniumIngot != null) {
+            recipe.setIngredient('I', uraniumIngot.getType());
+        }
         
         Bukkit.addRecipe(recipe);
     }
     
     private void registerLaboratoryTerminalRecipe() {
-        ItemStack terminal = NexoItems.itemFromId("laboratory_terminal");
+        ItemStack terminal = NexoItems.itemFromId("laboratory_terminal").build();
         if (terminal == null) return;
         
         NamespacedKey key = new NamespacedKey(plugin, "laboratory_terminal");
@@ -65,7 +72,7 @@ public class RecipeManager {
     }
     
     private void registerAssemblerRecipe() {
-        ItemStack assembler = NexoItems.itemFromId("assembler");
+        ItemStack assembler = NexoItems.itemFromId("assembler").build();
         if (assembler == null) return;
         
         NamespacedKey key = new NamespacedKey(plugin, "assembler");
@@ -79,7 +86,7 @@ public class RecipeManager {
     }
     
     private void registerGeigerCounterRecipe() {
-        ItemStack geiger = NexoItems.itemFromId("geiger_counter");
+        ItemStack geiger = NexoItems.itemFromId("geiger_counter").build();
         if (geiger == null) return;
         
         NamespacedKey key = new NamespacedKey(plugin, "geiger_counter");
@@ -93,7 +100,7 @@ public class RecipeManager {
     }
     
     private void registerBasicCapsuleRecipe() {
-        ItemStack capsule = NexoItems.itemFromId("uranium_capsule");
+        ItemStack capsule = NexoItems.itemFromId("uranium_capsule").build();
         if (capsule == null) return;
         
         NamespacedKey key = new NamespacedKey(plugin, "basic_uranium_capsule");

@@ -5,6 +5,7 @@ import com.example.laboratory.gui.LaboratoryGUI;
 import com.example.laboratory.gui.AssemblerGUI;
 import com.example.laboratory.gui.TeleporterGUI;
 import com.nexomc.nexo.api.NexoBlocks;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -98,9 +99,9 @@ public class BlockListener implements Listener {
             player.sendMessage("§aЦентрифуга запущена! Ожидайте " + 
                 (plugin.getConfigManager().getCentrifugeProcessTime() / 60) + " минут.");
             
-            // Add particle effects
+            // Add particle effects (MC 1.21 compatible)
             block.getWorld().spawnParticle(
-                org.bukkit.Particle.SMOKE_NORMAL, 
+                Particle.SMOKE, 
                 block.getLocation().add(0.5, 1, 0.5), 
                 10, 0.2, 0.2, 0.2, 0.01
             );

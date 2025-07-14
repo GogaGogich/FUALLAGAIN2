@@ -61,9 +61,9 @@ public class CentrifugeManager {
     }
     
     private void addProcessingEffects(Location location) {
-        // Add smoke particles
+        // Add smoke particles (MC 1.21 compatible)
         location.getWorld().spawnParticle(
-            Particle.SMOKE_NORMAL, 
+            Particle.SMOKE, 
             location.clone().add(0.5, 1.2, 0.5), 
             3, 0.1, 0.1, 0.1, 0.01
         );
@@ -141,7 +141,7 @@ public class CentrifugeManager {
         int maxUranium = plugin.getConfigManager().getConfig().getInt("centrifuge.max-uranium", 5);
         int amount = random.nextInt(maxUranium - minUranium + 1) + minUranium;
         
-        ItemStack uraniumDust = NexoItems.itemFromId("uranium_dust");
+        ItemStack uraniumDust = NexoItems.itemFromId("uranium_dust").build();
         if (uraniumDust != null) {
             uraniumDust.setAmount(amount);
             
@@ -149,9 +149,9 @@ public class CentrifugeManager {
             Location dropLocation = location.clone().add(0.5, 1, 0.5);
             location.getWorld().dropItemNaturally(dropLocation, uraniumDust);
             
-            // Add completion effects
+            // Add completion effects (MC 1.21 compatible)
             location.getWorld().spawnParticle(
-                Particle.EXPLOSION_NORMAL, 
+                Particle.EXPLOSION, 
                 dropLocation, 
                 10, 0.5, 0.5, 0.5, 0.1
             );

@@ -40,21 +40,21 @@ public class ResearchManager {
             Arrays.asList(
                 new ItemStack(Material.IRON_INGOT, 8),
                 new ItemStack(Material.GLASS, 4),
-                NexoItems.itemFromId("quantum_core")
+                createNexoItemSafe("quantum_core")
             ), Arrays.asList("quantum_core"));
         
         addResearch("centrifuge_block", "Блок центрифуги", 900, // 15 minutes
             Arrays.asList(
                 new ItemStack(Material.IRON_BLOCK, 2),
                 new ItemStack(Material.REDSTONE_BLOCK, 1),
-                NexoItems.itemFromId("quantum_core")
+                createNexoItemSafe("quantum_core")
             ), Arrays.asList("quantum_core"));
         
         addResearch("tablet", "Планшет", 450, // 7.5 minutes
             Arrays.asList(
                 new ItemStack(Material.GLASS_PANE, 6),
                 new ItemStack(Material.REDSTONE, 8),
-                NexoItems.itemFromId("quantum_core")
+                createNexoItemSafe("quantum_core")
             ), Arrays.asList("quantum_core"));
         
         addResearch("geiger_counter", "Счётчик Гейгера", 360, // 6 minutes
@@ -69,28 +69,28 @@ public class ResearchManager {
             Arrays.asList(
                 new ItemStack(Material.LEATHER, 8),
                 new ItemStack(Material.IRON_INGOT, 4),
-                NexoItems.itemFromId("quantum_core")
+                createNexoItemSafe("quantum_core")
             ), Arrays.asList("quantum_core", "uranium_capsule"));
         
         addResearch("chem_protection_chestplate", "Нагрудник хим защиты", 900,
             Arrays.asList(
                 new ItemStack(Material.LEATHER, 12),
                 new ItemStack(Material.IRON_INGOT, 6),
-                NexoItems.itemFromId("quantum_core")
+                createNexoItemSafe("quantum_core")
             ), Arrays.asList("chem_protection_helmet"));
         
         addResearch("chem_protection_leggings", "Поножи хим защиты", 800,
             Arrays.asList(
                 new ItemStack(Material.LEATHER, 10),
                 new ItemStack(Material.IRON_INGOT, 5),
-                NexoItems.itemFromId("quantum_core")
+                createNexoItemSafe("quantum_core")
             ), Arrays.asList("chem_protection_chestplate"));
         
         addResearch("chem_protection_boots", "Ботинки хим защиты", 700,
             Arrays.asList(
                 new ItemStack(Material.LEATHER, 6),
                 new ItemStack(Material.IRON_INGOT, 3),
-                NexoItems.itemFromId("quantum_core")
+                createNexoItemSafe("quantum_core")
             ), Arrays.asList("chem_protection_leggings"));
         
         // Tier 4: High-tech researches
@@ -98,32 +98,32 @@ public class ResearchManager {
             Arrays.asList(
                 new ItemStack(Material.NETHERITE_INGOT, 2),
                 new ItemStack(Material.DIAMOND, 4),
-                NexoItems.itemFromId("quantum_core"),
-                NexoItems.itemFromId("chem_protection_helmet")
+                createNexoItemSafe("quantum_core"),
+                createNexoItemSafe("chem_protection_helmet")
             ), Arrays.asList("chem_protection_boots"));
         
         addResearch("power_armor_chestplate", "Нагрудник силовой брони", 1800,
             Arrays.asList(
                 new ItemStack(Material.NETHERITE_INGOT, 3),
                 new ItemStack(Material.DIAMOND, 6),
-                NexoItems.itemFromId("quantum_core"),
-                NexoItems.itemFromId("chem_protection_chestplate")
+                createNexoItemSafe("quantum_core"),
+                createNexoItemSafe("chem_protection_chestplate")
             ), Arrays.asList("power_armor_helmet"));
         
         addResearch("power_armor_leggings", "Поножи силовой брони", 1600,
             Arrays.asList(
                 new ItemStack(Material.NETHERITE_INGOT, 2),
                 new ItemStack(Material.DIAMOND, 5),
-                NexoItems.itemFromId("quantum_core"),
-                NexoItems.itemFromId("chem_protection_leggings")
+                createNexoItemSafe("quantum_core"),
+                createNexoItemSafe("chem_protection_leggings")
             ), Arrays.asList("power_armor_chestplate"));
         
         addResearch("power_armor_boots", "Ботинки силовой брони", 1400,
             Arrays.asList(
                 new ItemStack(Material.NETHERITE_INGOT, 1),
                 new ItemStack(Material.DIAMOND, 3),
-                NexoItems.itemFromId("quantum_core"),
-                NexoItems.itemFromId("chem_protection_boots")
+                createNexoItemSafe("quantum_core"),
+                createNexoItemSafe("chem_protection_boots")
             ), Arrays.asList("power_armor_leggings"));
         
         // Tier 5: Ultimate researches
@@ -132,7 +132,7 @@ public class ResearchManager {
                 new ItemStack(Material.IRON_BLOCK, 4),
                 new ItemStack(Material.REDSTONE_BLOCK, 2),
                 new ItemStack(Material.NETHERITE_INGOT, 1),
-                NexoItems.itemFromId("quantum_core")
+                createNexoItemSafe("quantum_core")
             ), Arrays.asList("power_armor_boots"));
         
         addResearch("teleporter", "Телепорт", 2400, // 40 minutes
@@ -140,8 +140,17 @@ public class ResearchManager {
                 new ItemStack(Material.OBSIDIAN, 8),
                 new ItemStack(Material.ENDER_PEARL, 4),
                 new ItemStack(Material.NETHERITE_INGOT, 2),
-                NexoItems.itemFromId("quantum_core")
+                createNexoItemSafe("quantum_core")
             ), Arrays.asList("railgun"));
+    }
+    
+    private ItemStack createNexoItemSafe(String itemId) {
+        try {
+            ItemStack item = NexoItems.itemFromId(itemId).build();
+            return item != null ? item : new ItemStack(Material.BARRIER);
+        } catch (Exception e) {
+            return new ItemStack(Material.BARRIER);
+        }
     }
     
     private void addResearch(String id, String name, int timeSeconds, List<ItemStack> materials, List<String> prerequisites) {
@@ -191,14 +200,15 @@ public class ResearchManager {
     
     private boolean hasEnoughItems(Player player, ItemStack required) {
         // Check if it's a Nexo item
-        if (NexoItems.exists(required)) {
-            String nexoId = NexoItems.idFromItem(required);
+        String nexoId = NexoItems.idFromItem(required);
+        if (nexoId != null) {
             int totalAmount = 0;
             
             for (ItemStack item : player.getInventory().getContents()) {
-                if (item == null || !NexoItems.exists(item)) continue;
+                if (item == null) continue;
                 
-                if (nexoId.equals(NexoItems.idFromItem(item))) {
+                String itemNexoId = NexoItems.idFromItem(item);
+                if (nexoId.equals(itemNexoId)) {
                     totalAmount += item.getAmount();
                 }
             }
@@ -254,14 +264,15 @@ public class ResearchManager {
     }
     
     private void consumeItems(Player player, ItemStack required) {
-        if (NexoItems.exists(required)) {
-            String nexoId = NexoItems.idFromItem(required);
+        String nexoId = NexoItems.idFromItem(required);
+        if (nexoId != null) {
             int remainingToConsume = required.getAmount();
             
             for (ItemStack item : player.getInventory().getContents()) {
-                if (item == null || !NexoItems.exists(item) || remainingToConsume <= 0) continue;
+                if (item == null || remainingToConsume <= 0) continue;
                 
-                if (nexoId.equals(NexoItems.idFromItem(item))) {
+                String itemNexoId = NexoItems.idFromItem(item);
+                if (nexoId.equals(itemNexoId)) {
                     int toRemove = Math.min(remainingToConsume, item.getAmount());
                     item.setAmount(item.getAmount() - toRemove);
                     remainingToConsume -= toRemove;

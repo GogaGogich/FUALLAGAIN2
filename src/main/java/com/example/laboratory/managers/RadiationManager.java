@@ -11,6 +11,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import com.example.laboratory.LaboratoryPlugin;
 import com.nexomc.nexo.api.NexoItems;
+import com.nexomc.nexo.api.NexoBlocks;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -91,7 +92,7 @@ public class RadiationManager {
         
         // Check inventory for uranium items
         for (ItemStack item : player.getInventory().getContents()) {
-            if (item == null || !NexoItems.exists(item)) continue;
+            if (item == null) continue;
             
             String itemId = NexoItems.idFromItem(item);
             if (itemId == null) continue;
@@ -153,8 +154,8 @@ public class RadiationManager {
                 for (int z = -2; z <= 2; z++) {
                     Location checkLoc = location.clone().add(x, y, z);
                     
-                    // Check if block is uranium block using simple API
-                    String blockId = com.nexomc.nexo.api.NexoBlocks.idFromBlock(checkLoc.getBlock());
+                    // Check if block is uranium block
+                    String blockId = NexoBlocks.idFromBlock(checkLoc.getBlock());
                     
                     if ("uranium_block".equals(blockId)) {
                         double distance = location.distance(checkLoc);
@@ -201,7 +202,7 @@ public class RadiationManager {
     }
     
     private boolean isNexoItem(ItemStack item, String itemId) {
-        if (item == null || !NexoItems.exists(item)) return false;
+        if (item == null) return false;
         return itemId.equals(NexoItems.idFromItem(item));
     }
     

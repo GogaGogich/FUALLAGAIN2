@@ -199,7 +199,7 @@ public class AssemblerGUI implements Listener {
     }
     
     private void giveAssembledItem(Player player, Research research) {
-        ItemStack assembledItem = NexoItems.itemFromId(research.getId());
+        ItemStack assembledItem = NexoItems.itemFromId(research.getId()).build();
         if (assembledItem != null) {
             player.getInventory().addItem(assembledItem);
         }

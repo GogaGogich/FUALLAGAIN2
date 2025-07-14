@@ -3,6 +3,7 @@ package com.example.laboratory.listeners;
 import com.example.laboratory.LaboratoryPlugin;
 import com.example.laboratory.gui.TabletGUI;
 import com.nexomc.nexo.api.NexoItems;
+import com.nexomc.nexo.api.NexoBlocks;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -31,9 +32,7 @@ public class PlayerListener implements Listener {
         
         if (item == null) return;
         
-        // Check if it's a Nexo item using new API
-        if (!NexoItems.exists(item)) return;
-        
+        // Check if it's a Nexo item
         String itemId = NexoItems.idFromItem(item);
         if (itemId == null) return;
         
@@ -91,7 +90,7 @@ public class PlayerListener implements Listener {
         player.sendMessage(statusMessage);
         
         // Enhanced sound effects based on radiation level
-        Sound sound = Sound.BLOCK_NOTE_BLOCK_CLICK;
+        Sound sound = Sound.UI_BUTTON_CLICK;
         float pitch = 1.0f;
         
         if (radiation > 50) {
@@ -157,7 +156,7 @@ public class PlayerListener implements Listener {
     }
     
     private boolean isUraniumDust(ItemStack item) {
-        if (item == null || !NexoItems.exists(item)) return false;
+        if (item == null) return false;
         return "uranium_dust".equals(NexoItems.idFromItem(item));
     }
     
@@ -175,7 +174,7 @@ public class PlayerListener implements Listener {
         }
         
         // Extract uranium dust
-        ItemStack uraniumDust = NexoItems.itemFromId("uranium_dust");
+        ItemStack uraniumDust = NexoItems.itemFromId("uranium_dust").build();
         int extractAmount = Math.min(storedAmount, 64);
         uraniumDust.setAmount(extractAmount);
         
@@ -283,7 +282,7 @@ public class PlayerListener implements Listener {
     
     private void bindTabletToStructure(Player player, ItemStack tablet, Location location) {
         // Structure binding with validation
-        String blockId = com.nexomc.nexo.api.NexoBlocks.idFromBlock(location.getBlock());
+        String blockId = NexoBlocks.idFromBlock(location.getBlock());
             
         if (blockId == null) {
             player.sendMessage("§cЭто не является структурой лаборатории!");
