@@ -283,7 +283,7 @@ public class PlayerListener implements Listener {
     
     private void bindTabletToStructure(Player player, ItemStack tablet, Location location) {
         // Enhanced structure binding with validation
-        com.nexomc.nexo.mechanics.custom_block.noteblock.NexoNoteBlock nexoBlock = 
+        com.nexomc.nexo.api.NexoBlock nexoBlock = 
             com.nexomc.nexo.api.NexoBlocks.noteBlockFromBlock(location.getBlock());
             
         if (nexoBlock == null) {
