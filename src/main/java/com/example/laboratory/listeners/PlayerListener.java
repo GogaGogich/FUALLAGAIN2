@@ -282,30 +282,27 @@ public class PlayerListener implements Listener {
     }
     
     private void bindTabletToStructure(Player player, ItemStack tablet, Location location) {
-        // Structure binding with validation
-        String blockId = NexoBlocks.idFromBlock(location.getBlock());
-            
-        if (blockId == null) {
-            player.sendMessage("§cЭто не является структурой лаборатории!");
-            return;
-        }
+        // Simplified structure binding - you might want to implement a registry
+        // of valid structure locations or use a different approach
+        String blockType = location.getBlock().getType().name();
         
-        if (!isValidStructureType(blockId)) {
+        // Basic validation based on block type
+        if (isValidStructureBlock(blockType)) {
+            plugin.getTabletManager().bindStructure(player, location, blockType);
+        } else {
             player.sendMessage("§cЭтот блок нельзя привязать к планшету!");
             return;
         }
-        
-        plugin.getTabletManager().bindStructure(player, location, blockId);
         
         // Add sound effect
         player.getWorld().playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 2.0f);
     }
     
-    private boolean isValidStructureType(String blockId) {
-        return blockId.equals("laboratory_terminal") || 
-               blockId.equals("assembler") || 
-               blockId.equals("centrifuge_block") || 
-               blockId.equals("teleporter");
+    private boolean isValidStructureBlock(String blockType) {
+        return blockType.equals("CRAFTING_TABLE") || 
+               blockType.equals("SMITHING_TABLE") || 
+               blockType.equals("BLAST_FURNACE") || 
+               blockType.equals("END_PORTAL_FRAME");
     }
     
     private String getCurrentRailgunMode(List<String> lore) {

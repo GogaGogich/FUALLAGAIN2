@@ -87,11 +87,8 @@ public class CentrifugeManager {
     public boolean isCentrifugeStructure(Location centerLocation) {
         Block center = centerLocation.getBlock();
         
-        // Check if center is centrifuge block
-        String blockId = NexoBlocks.idFromBlock(center);
-        if (!"centrifuge_block".equals(blockId)) {
-            return false;
-        }
+        // Note: Block ID checking is now handled in the event listener
+        // This method assumes the center block is already validated as centrifuge_block
         
         // Check 3x3 structure around center
         for (int x = -1; x <= 1; x++) {

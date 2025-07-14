@@ -83,7 +83,7 @@ public class TabletManager {
         String type = structure.getType();
         
         switch (type) {
-            case "centrifuge_block":
+            case "BLAST_FURNACE":
                 if (plugin.getCentrifugeManager().isCentrifugeActive(location)) {
                     long remaining = plugin.getCentrifugeManager().getRemainingTime(location);
                     return "§eРаботает (осталось: " + (remaining / 1000) + "с)";
@@ -91,11 +91,11 @@ public class TabletManager {
                     return "§7Неактивна";
                 }
                 
-            case "laboratory_terminal":
+            case "CRAFTING_TABLE":
                 // Check if any player has active research
                 return "§aГотова к работе";
                 
-            case "teleporter":
+            case "END_PORTAL_FRAME":
                 return "§aАктивна";
                 
             default:
